@@ -1,0 +1,50 @@
+/*
+ * Copyright 2013-2018 featherrun
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package running.util;
+
+import java.util.Random;
+
+public class RandomUtils {
+	final Random random = new Random();
+
+	/**
+	 * Test the probability (range:10000)
+	 * @param probability
+	 * @return
+	 */
+	public boolean test(int probability) {
+		return test(10000, probability);
+	}
+
+	public boolean test(int range, int probability) {
+		return range <= 0 ? (probability == 0) : (random.nextInt(range) < probability);
+	}
+
+	/**
+	 * [min,max)
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	public int getInt(int min, int max) {
+		return min + getInt(max - min);
+	}
+
+	public int getInt(int max) {
+		return max <= 0 ? 0 : random.nextInt(max);
+	}
+}
