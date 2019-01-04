@@ -79,11 +79,11 @@ public class ZipUtils {
 		} else {
 			File[] listFiles = sourceFile.listFiles();
 			if (listFiles == null || listFiles.length == 0) {
-				zos.putNextEntry(new ZipEntry(name + "/"));
+				zos.putNextEntry(new ZipEntry(name));
 				zos.closeEntry();
 			} else {
 				for (File file : listFiles) {
-					compress(file, zos, name + "/" + file.getName());
+					compress(file, zos, file.getName());
 				}
 			}
 		}
