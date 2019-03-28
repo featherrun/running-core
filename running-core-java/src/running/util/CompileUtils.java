@@ -16,7 +16,7 @@
 
 package running.util;
 
-import running.core.ILogger;
+import running.core.Logger;
 import running.core.Running;
 
 import javax.tools.JavaCompiler;
@@ -29,7 +29,7 @@ import java.io.IOException;
  * Compiling a java file, running time.
  */
 public class CompileUtils {
-	final ILogger logger = Running.getLogger(getClass());
+	final Logger logger = Running.getLogger(getClass());
 
 	/**
 	 * Compiling

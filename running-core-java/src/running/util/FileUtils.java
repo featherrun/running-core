@@ -16,7 +16,7 @@
 
 package running.util;
 
-import running.core.ILogger;
+import running.core.Logger;
 import running.core.Running;
 
 import java.io.*;
@@ -28,7 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileUtils {
-	final ILogger logger = Running.getLogger(getClass());
+	final Logger logger = Running.getLogger(getClass());
 
 	/**
 	 * Read a resource file

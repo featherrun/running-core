@@ -16,7 +16,7 @@
 
 package running.util;
 
-import running.core.ILogger;
+import running.core.Logger;
 import running.core.Running;
 
 import java.io.*;
@@ -34,7 +34,7 @@ import java.util.zip.ZipOutputStream;
  * Zip file util
  */
 public class ZipUtils {
-	final ILogger logger = Running.getLogger(getClass());
+	final Logger logger = Running.getLogger(getClass());
 
 	/**
 	 * files/folders to xxx.zip

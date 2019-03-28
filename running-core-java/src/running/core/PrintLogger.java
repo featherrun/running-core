@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class PrintLogger implements ILogger {
+public class PrintLogger implements Logger {
 	protected PrintStream stream;
 	protected List<String> limitLevels;
 
@@ -35,15 +35,14 @@ public class PrintLogger implements ILogger {
 		this.limitLevels = (limitLevels != null && limitLevels.length > 0) ? Arrays.asList(limitLevels) : null;
 	}
 
-	protected void print(String level, Object message, Throwable t) {
+	protected void print(String level, String message, Throwable t) {
 		if (limitLevels != null && !limitLevels.contains(level)) {
 			return;
 		}
 		String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS").format(new Date());
 		StackTraceElement[] elements = new Throwable().getStackTrace();
 		StackTraceElement stack = elements[2];
-		String msg = message != null ? message.toString() : "null";
-		String s = String.format("%s %-5s [%s:%d] %s", time, level, stack.getClassName(), stack.getLineNumber(), msg);
+		String s = String.format("%s %-5s [%s:%d] %s", time, level, stack.getClassName(), stack.getLineNumber(), message);
 		stream.println(s);
 		if (t != null) {
 			t.printStackTrace(stream);
@@ -51,67 +50,52 @@ public class PrintLogger implements ILogger {
 	}
 
 	@Override
-	public ILogger getLogger(Class<?> cls) {
-		return this;
-	}
-
-	@Override
-	public void fatal(Object message) {
-		print("FATAL", message, null);
-	}
-
-	@Override
-	public void fatal(Object message, Throwable t) {
-		print("FATAL", message, t);
-	}
-
-	@Override
-	public void error(Object message) {
+	public void error(String message) {
 		print("ERROR", message, null);
 	}
 
 	@Override
-	public void error(Object message, Throwable t) {
+	public void error(String message, Throwable t) {
 		print("ERROR", message, t);
 	}
 
 	@Override
-	public void warn(Object message) {
+	public void warn(String message) {
 		print("WARN", message, null);
 	}
 
 	@Override
-	public void warn(Object message, Throwable t) {
+	public void warn(String message, Throwable t) {
 		print("WARN", message, t);
 	}
 
 	@Override
-	public void info(Object message) {
+	public void info(String message) {
 		print("INFO", message, null);
 	}
 
 	@Override
-	public void info(Object message, Throwable t) {
+	public void info(String message, Throwable t) {
 		print("INFO", message, t);
 	}
 
 	@Override
-	public void debug(Object message) {
+	public void debug(String message) {
 		print("DEBUG", message, null);
 	}
 
 	@Override
-	public void debug(Object message, Throwable t) {
+	public void debug(String message, Throwable t) {
 		print("DEBUG", message, t);
 	}
 
 	@Override
-	public void trace(Object message) {
+	public void trace(String message) {
 		print("TRACE", message, null);
 	}
 
 	@Override
-	public void trace(Object message, Throwable t) {
+	public void trace(String message, Throwable t) {
 		print("TRACE", message, t);
 	}
 }

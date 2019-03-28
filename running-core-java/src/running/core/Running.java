@@ -21,14 +21,20 @@ import java.util.Map;
 
 public final class Running {
 	private static final Map<Class<?>, Object> objectMap = new HashMap<>();
+	private static LoggerFactory loggerFactory = null;
 	private static boolean fixed;
+
+	@SuppressWarnings("unchecked")
+	public static <T> void set(T obj) {
+		set((Class<T>) obj.getClass(), obj);
+	}
 
 	public static <T> void set(Class<T> cls, T obj) {
 		if (fixed) {
 			if (!objectMap.containsKey(cls)) {
-				ILogger logger = getLogger(Running.class);
+				Logger logger = getLogger(Running.class);
 				if (logger != null) {
-					logger.error(cls);
+					logger.error("Running fixed."+cls.toString());
 				}
 				return;
 			}
@@ -41,8 +47,19 @@ public final class Running {
 		return (T) objectMap.get(cls);
 	}
 
-	public static ILogger getLogger(Class<?> cls) {
-		return get(ILogger.class).getLogger(cls);
+	/**
+	 * Logger
+	 */
+	public static Logger getLogger(Class<?> cls) {
+		return getLoggerFactory().getLogger(cls);
+	}
+
+	public static LoggerFactory getLoggerFactory() {
+		return loggerFactory != null ? loggerFactory : get(LoggerFactory.class);
+	}
+
+	public static void setLoggerFactory(LoggerFactory loggerFactory) {
+		Running.loggerFactory = loggerFactory;
 	}
 
 	/**

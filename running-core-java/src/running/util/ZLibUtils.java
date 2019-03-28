@@ -16,7 +16,7 @@
 
 package running.util;
 
-import running.core.ILogger;
+import running.core.Logger;
 import running.core.Running;
 
 import java.io.ByteArrayOutputStream;
@@ -28,7 +28,7 @@ import java.util.zip.Inflater;
  * ZLib
  */
 public class ZLibUtils {
-	final ILogger logger = Running.getLogger(getClass());
+	final Logger logger = Running.getLogger(getClass());
 
 	public byte[] compress(final byte[] data) {
 		byte[] output = null;

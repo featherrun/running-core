@@ -19,37 +19,44 @@ package running.util;
 import running.core.Logger;
 import running.core.Running;
 
-import java.nio.charset.Charset;
-import java.security.MessageDigest;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.GZIPOutputStream;
 
 /**
- * Message-Digest Algorithm 5
+ * Gzip
  */
-public class MD5Utils {
+public class GzipUtils {
 	final Logger logger = Running.getLogger(getClass());
 
-	public String md5(final String s) {
-		return md5(s.getBytes(Charset.defaultCharset()));
-	}
-
-	public String md5(final byte[] bytes) {
-		StringBuilder buf = new StringBuilder();
+	public byte[] compress(byte[] data) {
+		ByteArrayOutputStream out = null;
+		GZIPOutputStream gzip = null;
+		byte[] output = null;
 		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(bytes);
-			byte[] arr = md.digest();
-			for (byte b : arr) {
-				int i = b;
-				if (i < 0)
-					i += 256;
-				if (i < 16)
-					buf.append("0");
-				buf.append(Integer.toHexString(i));
-			}
+			out = new ByteArrayOutputStream(data.length);
+			gzip = new GZIPOutputStream(out);
+			gzip.write(data, 0, data.length);
+			gzip.finish();
+			gzip.flush();
+			out.flush();
+			output = out.toByteArray();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
+		} finally {
+			if (gzip != null) {
+				try {
+					gzip.close();
+				} catch (IOException ignored) {
+				}
+			}
+			if (out != null) {
+				try {
+					out.close();
+				} catch (IOException ignored) {
+				}
+			}
 		}
-		return buf.toString();
+		return output;
 	}
-
 }

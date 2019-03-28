@@ -16,7 +16,7 @@
 
 package running.util;
 
-import running.core.ILogger;
+import running.core.Logger;
 import running.core.Running;
 
 import java.io.BufferedReader;
@@ -30,7 +30,7 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 public class PropertiesUtils {
-	final ILogger logger = Running.getLogger(getClass());
+	final Logger logger = Running.getLogger(getClass());
 	Properties defaults;
 
 	/**

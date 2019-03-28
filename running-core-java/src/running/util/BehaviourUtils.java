@@ -16,40 +16,35 @@
 
 package running.util;
 
+import running.core.Behaviour;
 import running.core.Logger;
 import running.core.Running;
 
-import java.nio.charset.Charset;
-import java.security.MessageDigest;
-
-/**
- * Message-Digest Algorithm 5
- */
-public class MD5Utils {
+public class BehaviourUtils {
 	final Logger logger = Running.getLogger(getClass());
 
-	public String md5(final String s) {
-		return md5(s.getBytes(Charset.defaultCharset()));
+	public void awake(final Iterable<?> iterable) {
+		for (Object data : iterable) {
+			if (data instanceof Behaviour) {
+				try {
+					((Behaviour) data).awake();
+				} catch (Exception e) {
+					logger.error(e.getMessage(), e);
+				}
+			}
+		}
 	}
 
-	public String md5(final byte[] bytes) {
-		StringBuilder buf = new StringBuilder();
-		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(bytes);
-			byte[] arr = md.digest();
-			for (byte b : arr) {
-				int i = b;
-				if (i < 0)
-					i += 256;
-				if (i < 16)
-					buf.append("0");
-				buf.append(Integer.toHexString(i));
+	public void onDestroy(final Iterable<?> iterable) {
+		for (Object data : iterable) {
+			if (data instanceof Behaviour) {
+				try {
+					((Behaviour) data).onDestroy();
+				} catch (Exception e) {
+					logger.error(e.getMessage(), e);
+				}
 			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
 		}
-		return buf.toString();
 	}
 
 }
